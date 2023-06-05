@@ -1,0 +1,2 @@
+
+enum Status {IDEL,LOADING,SCUSSESS,FAILED}

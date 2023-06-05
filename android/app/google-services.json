@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "970819321982",
+    "project_id": "my-schedule-2d32b",
+    "storage_bucket": "my-schedule-2d32b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:970819321982:android:3b8338135158ccba31582f",
+        "android_client_info": {
+          "package_name": "com.equitysoft.my_schedule"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "970819321982-67hrbt25rqtbj16mn9rm41rb8e5h7kig.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDo21L_jmYwOnCxk4chNnK46Ud__B8GDb4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "970819321982-67hrbt25rqtbj16mn9rm41rb8e5h7kig.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
