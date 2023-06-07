@@ -40,18 +40,23 @@ class ListTileWidget extends StatelessWidget {
                 decoration: BoxDecoration(
                     color: AppColors.white,
                     borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: AppColors.greyColor),
+                    border: Border.all(color: AppColors.greyColor),
                     boxShadow: const [
                       BoxShadow(
                           color: Color.fromRGBO(143, 148, 251, 0.3),
                           blurRadius: 20.0,
                           offset: Offset(0, 10))
-                    ]
-                ),
+                    ]),
                 child: ListTile(
-                  shape: OutlineInputBorder(borderRadius: BorderRadius.circular(20), borderSide: BorderSide.none),
+                  shape: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide: BorderSide.none,
+                  ),
                   title: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 7),
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 14,
+                      horizontal: 7,
+                    ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -75,7 +80,8 @@ class ListTileWidget extends StatelessWidget {
                             ),
                             Text(
                               DateFormat('MMM dd,' 'yyyy').format(date),
-                              style: const TextStyle(color: AppColors.greyColor, fontSize: 13),
+                              style: const TextStyle(
+                                  color: AppColors.greyColor, fontSize: 13),
                             ),
                             SizedBox(
                                 width: 250,
@@ -98,20 +104,21 @@ class ListTileWidget extends StatelessWidget {
                                 color: AppColors.textColor,
                               ),
                               itemBuilder: (context) {
-                                      return [
-                                        const PopupMenuItem(
-                                          value: 'edit',
-                                          child: Text('Edit'),
-                                        ),
-                                        const PopupMenuItem(
-                                          value: 'delete',
-                                          child: Text(
-                                            'Delete',
-                                            style: TextStyle(color: AppColors.deleteColor),
-                                          ),
-                                        )
-                                      ];
-                                    },
+                                return [
+                                  const PopupMenuItem(
+                                    value: 'edit',
+                                    child: Text('Edit'),
+                                  ),
+                                  const PopupMenuItem(
+                                    value: 'delete',
+                                    child: Text(
+                                      'Delete',
+                                      style: TextStyle(
+                                          color: AppColors.deleteColor),
+                                    ),
+                                  )
+                                ];
+                              },
                               onSelected: (String value) {
                                 if (value == "edit") {
                                   Get.bottomSheet(
@@ -133,16 +140,21 @@ class ListTileWidget extends StatelessWidget {
                                     context: context,
                                     builder: (context) {
                                       return ZoomIn(
-                                        duration: const Duration(milliseconds: 800),
+                                        duration:
+                                            const Duration(milliseconds: 800),
                                         child: CupertinoAlertDialog(
                                           title: const Text('Please Confirm'),
-                                          content: const Text('Are you sure to remove the task?'),
+                                          content: const Text(
+                                              'Are you sure to remove the task?'),
                                           actions: [
                                             // The "Yes" button
                                             CupertinoDialogAction(
                                               onPressed: () async {
-                                                logger.i(controller.mainList[index].docId);
-                                                await controller.delData(controller.mainList[index].docId);
+                                                logger.i(controller
+                                                    .mainList[index].docId);
+                                                await controller.delData(
+                                                    controller
+                                                        .mainList[index].docId);
                                               },
                                               isDefaultAction: true,
                                               isDestructiveAction: true,
@@ -207,7 +219,10 @@ class ListTileWidget extends StatelessWidget {
                   ),
                 ),
               ),
-              Badge(smallSize: 15, isLabelVisible: badgeBool, backgroundColor: AppColors.alertColor),
+              Badge(
+                  smallSize: 15,
+                  isLabelVisible: badgeBool,
+                  backgroundColor: AppColors.alertColor),
             ],
           ),
         );

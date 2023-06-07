@@ -4,8 +4,7 @@ import "../../../src_exports.dart";
 import "package:intl/intl.dart";
 import '../../plugin/date_picker.dart' as picker_date;
 
-class AuthController extends BaseController{
-
+class AuthController extends BaseController {
   bool passwordVisible = true;
 
   onVisibilityChanged() {
@@ -19,10 +18,12 @@ class AuthController extends BaseController{
   onDate() async {
     DateTime? pickedDate = await picker_date.showDatePicker(
         context: Get.context!,
-        initialDate: birthdayDateTime == null ? DateTime(1990) : birthdayDateTime!,
+        initialDate:
+            birthdayDateTime == null ? DateTime(1990) : birthdayDateTime!,
         firstDate: DateTime(1950),
         lastDate: DateTime.now().subtract(const Duration(hours: 157788)),
-        switchToCalendarEntryModeIcon: const Icon(CupertinoIcons.calendar_today),
+        switchToCalendarEntryModeIcon:
+            const Icon(CupertinoIcons.calendar_today),
         fieldLabelText: "Birthday Date",
         helpText: "MM/DD/YYYY",
         fieldHintText: "MM/DD/YYYY",
@@ -84,11 +85,14 @@ class AuthController extends BaseController{
             color: AppColors.purple.withOpacity(0.5),
           ),
           enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10), borderSide: const BorderSide(color: AppColors.purple, width: 1)),
+              borderRadius: BorderRadius.circular(10),
+              borderSide: const BorderSide(color: AppColors.purple, width: 1)),
           focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10), borderSide: const BorderSide(color: AppColors.purple, width: 2)),
+              borderRadius: BorderRadius.circular(10),
+              borderSide: const BorderSide(color: AppColors.purple, width: 2)),
           disabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10), borderSide: const BorderSide(color: AppColors.purple, width: 1)),
+              borderRadius: BorderRadius.circular(10),
+              borderSide: const BorderSide(color: AppColors.purple, width: 1)),
         ),
       ),
       onSelect: (Country e) {
@@ -105,7 +109,8 @@ class AuthController extends BaseController{
   Future<void> login({required String email, required String password}) async {
     try {
       onUpdate(status: Status.LOADING);
-      await firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
+      await firebaseAuth.signInWithEmailAndPassword(
+          email: email, password: password);
       if (FirebaseAuth.instance.currentUser != null) {
         Get.offAllNamed(Routes.HOME_PAGE);
         onUpdate(status: Status.SCUSSESS);
@@ -123,8 +128,12 @@ class AuthController extends BaseController{
   Future<void> signUp({required UserData userData}) async {
     try {
       onUpdate(status: Status.LOADING);
-      await firebaseAuth.createUserWithEmailAndPassword(email: userData.email, password: userData.password);
-      await firebaseDb.collection("user_details").doc(firebaseAuth.currentUser!.uid).set(userData.toJson());
+      await firebaseAuth.createUserWithEmailAndPassword(
+          email: userData.email, password: userData.password);
+      await firebaseDb
+          .collection("user_details")
+          .doc(firebaseAuth.currentUser!.uid)
+          .set(userData.toJson());
       Get.offAllNamed(Routes.VERIFICATION, arguments: [userData]);
       onUpdate(status: Status.SCUSSESS);
     } on FirebaseAuthException catch (e, t) {
@@ -153,7 +162,8 @@ class AuthController extends BaseController{
         timerVisible = false;
         int minutes = remainingSeconds ~/ 60;
         int seconds = remainingSeconds % 60;
-        time = "${minutes.toString().padLeft(2, "0")}:${seconds.toString().padLeft(2, "0")}";
+        time =
+            "${minutes.toString().padLeft(2, "0")}:${seconds.toString().padLeft(2, "0")}";
         remainingSeconds--;
       }
       update();
@@ -162,7 +172,8 @@ class AuthController extends BaseController{
 
   Future<void> verifyOtp(String otp) async {
     try {
-      final credential = PhoneAuthProvider.credential(verificationId: _verificationId, smsCode: otp);
+      final credential = PhoneAuthProvider.credential(
+          verificationId: _verificationId, smsCode: otp);
       onUpdate(status: Status.LOADING);
       // if (FirebaseAuth.instance.currentUser != null) {
       //   isLoggedIn = true;
@@ -180,14 +191,19 @@ class AuthController extends BaseController{
       // final cred = EmailAuthProvider.credential(
       //     email: dummyUserData.email, password: dummyUserData.password);
       // logger.i(firebaseAuth.currentUser!.uid);
-      await firebaseAuth.currentUser!.linkWithCredential(credential).then((user) {
+      await firebaseAuth.currentUser!
+          .linkWithCredential(credential)
+          .then((user) {
         logger.i(user);
       });
       // await firebaseDb
       //     .collection("user_details")
       //     .doc(firebaseAuth.currentUser!.uid)
       //     .set(dummyUserData.toJson());
-      await firebaseDb.collection("user_details").doc(firebaseAuth.currentUser!.uid).update({'phone_verified': true});
+      await firebaseDb
+          .collection("user_details")
+          .doc(firebaseAuth.currentUser!.uid)
+          .update({'phone_verified': true});
       /*======================================================================*/
 
       Get.offAllNamed(Routes.HOME_PAGE);
@@ -212,23 +228,19 @@ class AuthController extends BaseController{
           verificationFailed: verificationFailed,
           codeSent: codeSent,
           codeAutoRetrievalTimeout: codeAutoRetrievalTimeout,
-        timeout: const Duration(seconds: 60),
-        forceResendingToken: _resendToken
-      );
+          timeout: const Duration(seconds: 60),
+          forceResendingToken: _resendToken);
       // .onError((error, stackTrace) => logger.wtf(error, stackTrace));
     } on FirebaseAuthException catch (e, t) {
       onUpdate(status: Status.SCUSSESS);
       logger.wtf(t);
-      Get.snackbar(
-        e.code,
-        "Invalid Check Phone Number",
-        icon: const Icon(Icons.person, color: AppColors.white),
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: AppColors.alertColor,
+      Get.snackbar(e.code, "Invalid Check Phone Number",
+          icon: const Icon(Icons.person, color: AppColors.white),
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: AppColors.alertColor,
           shouldIconPulse: false,
           margin: const EdgeInsets.only(bottom: 10.0, left: 10.0, right: 10.0),
-          colorText: AppColors.white
-      );
+          colorText: AppColors.white);
     }
   }
 
@@ -256,16 +268,14 @@ class AuthController extends BaseController{
     try {
       onUpdate(status: Status.SCUSSESS);
       logger.e(exception.message);
-      Get.snackbar(
-        '+$country $phoneNumber',
-        "Invalid...! Check Phone Number! / Already In Use",
-        icon: const Icon(Icons.person, color: AppColors.white),
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: AppColors.alertColor,
+      Get.snackbar('+$country $phoneNumber',
+          "Invalid...! Check Phone Number! / Already In Use",
+          icon: const Icon(Icons.person, color: AppColors.white),
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: AppColors.alertColor,
           margin: const EdgeInsets.only(bottom: 10.0, left: 10.0, right: 10.0),
           shouldIconPulse: false,
-          colorText: AppColors.white
-      );
+          colorText: AppColors.white);
     } catch (e, t) {
       logger.wtf(t);
       onError(e, () {});
@@ -307,42 +317,40 @@ class AuthController extends BaseController{
     }
   }
 
-  Future<void> forgotPassword({required String email, BuildContext? context}) async {
+  Future<void> forgotPassword(
+      {required String email, BuildContext? context}) async {
     try {
       onUpdate(status: Status.LOADING);
       await firebaseAuth.sendPasswordResetEmail(email: email);
       Get.back();
-      Get.snackbar(
-        email,
-        "Please go to email and change your password",
-        icon: const Icon(Icons.person, color: AppColors.white),
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: AppColors.greyColor,
+      Get.snackbar(email, "Please go to email and change your password",
+          icon: const Icon(Icons.person, color: AppColors.white),
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: AppColors.greyColor,
           shouldIconPulse: false,
           margin: const EdgeInsets.only(bottom: 10.0, left: 10.0, right: 10.0),
-          colorText: AppColors.white
-      );
+          colorText: AppColors.white);
       onUpdate(status: Status.SCUSSESS);
     } catch (e) {
       onUpdate(status: Status.SCUSSESS);
       logger.e(e);
-      Get.snackbar(
-        email,
-        "Invalid email address / User not found",
-        icon: const Icon(Icons.person, color: AppColors.white),
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: AppColors.alertColor,
+      Get.snackbar(email, "Invalid email address / User not found",
+          icon: const Icon(Icons.person, color: AppColors.white),
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: AppColors.alertColor,
           shouldIconPulse: false,
           margin: const EdgeInsets.only(bottom: 10.0, left: 10.0, right: 10.0),
-          colorText: AppColors.white
-      );
+          colorText: AppColors.white);
     }
   }
 
   Future<void> googleSignIn() async {
     try {
       onUpdate(status: Status.LOADING);
-      final googleSignIn = GoogleSignIn(scopes: <String>["email"], signInOption: SignInOption.standard);
+      final googleSignIn = GoogleSignIn(
+        scopes: <String>["email"],
+        signInOption: SignInOption.standard,
+      );
       final signInAccount = await googleSignIn.signIn();
       final googleAccountAuthentication = await signInAccount!.authentication;
       // Get.snackbar(
@@ -371,31 +379,38 @@ class AuthController extends BaseController{
       //     .contains(true));
       // logger.i(b);
       // if (b) {
-        final credential = GoogleAuthProvider.credential(
-            accessToken: googleAccountAuthentication.accessToken, idToken: googleAccountAuthentication.idToken);
-        await firebaseAuth.signInWithCredential(credential);
-        bool abc = await FirebaseFirestore.instance
+      final credential = GoogleAuthProvider.credential(
+          accessToken: googleAccountAuthentication.accessToken,
+          idToken: googleAccountAuthentication.idToken);
+      await firebaseAuth.signInWithCredential(credential);
+      bool abc = await FirebaseFirestore.instance
+          .collection("user_details")
+          .get()
+          .then((e) => e.docs
+              .map((e) => e.id)
+              .toList()
+              .contains(firebaseAuth.currentUser!.uid));
+      logger.i(a);
+      if (!abc) {
+        await firebaseDb
             .collection("user_details")
-            .get()
-            .then((e) => e.docs.map((e) => e.id).toList().contains(firebaseAuth.currentUser!.uid));
-        logger.i(a);
-        if (!abc) {
-          await firebaseDb.collection("user_details").doc(firebaseAuth.currentUser!.uid).set({
-            'fName': firebaseAuth.currentUser!.displayName!.split(" ").first,
-            'lName': firebaseAuth.currentUser!.displayName!.split(" ").last,
-            'phone': firebaseAuth.currentUser!.phoneNumber,
-            'profile_img': firebaseAuth.currentUser!.photoURL,
-            'email': firebaseAuth.currentUser!.email,
-            'email_verified': true,
-            'google_sign': true
-          }, SetOptions(merge: true));
-        }else{
-          await firebaseDb.collection("user_details").doc(firebaseAuth.currentUser!.uid).update({
-            'email_verified': true,
-            'google_sign': true
-          });
-        }
-        Get.offAllNamed(Routes.HOME_PAGE);
+            .doc(firebaseAuth.currentUser!.uid)
+            .set({
+          'fName': firebaseAuth.currentUser!.displayName!.split(" ").first,
+          'lName': firebaseAuth.currentUser!.displayName!.split(" ").last,
+          'phone': firebaseAuth.currentUser!.phoneNumber,
+          'profile_img': firebaseAuth.currentUser!.photoURL,
+          'email': firebaseAuth.currentUser!.email,
+          'email_verified': true,
+          'google_sign': true
+        }, SetOptions(merge: true));
+      } else {
+        await firebaseDb
+            .collection("user_details")
+            .doc(firebaseAuth.currentUser!.uid)
+            .update({'email_verified': true, 'google_sign': true});
+      }
+      Get.offAllNamed(Routes.HOME_PAGE);
       // } else {
       //   await googleSignIn.signOut();
       //   Get.snackbar(
@@ -410,15 +425,13 @@ class AuthController extends BaseController{
     } catch (e) {
       onUpdate(status: Status.SCUSSESS);
       logger.e(e);
-      Get.snackbar(
-        "You are not select any email id...!",
-        "if you want login with google please select email..!",
-        icon: const Icon(Icons.person, color: AppColors.black),
-        snackPosition: SnackPosition.BOTTOM,
+      Get.snackbar("You are not select any email id...!",
+          "if you want login with google please select email..!",
+          icon: const Icon(Icons.person, color: AppColors.black),
+          snackPosition: SnackPosition.BOTTOM,
           shouldIconPulse: false,
           margin: const EdgeInsets.only(bottom: 10.0, left: 10.0, right: 10.0),
-        backgroundColor: Colors.amber.shade300
-      );
+          backgroundColor: Colors.amber.shade300);
     }
   }
 
@@ -454,26 +467,33 @@ class AuthController extends BaseController{
       //     .contains(true));
       // logger.i(b);
       // if (b) {
-        // Create a credential from the access token
-        final OAuthCredential facebookAuthCredential = FacebookAuthProvider.credential(loginResult.accessToken!.token);
-        // Once signed in, return the UserCredential
-        await firebaseAuth.signInWithCredential(facebookAuthCredential);
-        bool abc = await FirebaseFirestore.instance
+      // Create a credential from the access token
+      final OAuthCredential facebookAuthCredential =
+          FacebookAuthProvider.credential(loginResult.accessToken!.token);
+      // Once signed in, return the UserCredential
+      await firebaseAuth.signInWithCredential(facebookAuthCredential);
+      bool abc = await FirebaseFirestore.instance
+          .collection("user_details")
+          .get()
+          .then((e) => e.docs
+              .map((e) => e.id)
+              .toList()
+              .contains(firebaseAuth.currentUser!.uid));
+      if (!abc) {
+        await firebaseDb
             .collection("user_details")
-            .get()
-            .then((e) => e.docs.map((e) => e.id).toList().contains(firebaseAuth.currentUser!.uid));
-        if (!abc) {
-          await firebaseDb.collection("user_details").doc(firebaseAuth.currentUser!.uid).set({
-            'fName': firebaseAuth.currentUser!.displayName!.split(" ").first,
-            'lName': firebaseAuth.currentUser!.displayName!.split(" ").last,
-            'phone': firebaseAuth.currentUser!.phoneNumber,
-            'profile_img': firebaseAuth.currentUser!.photoURL,
-            'email': firebaseAuth.currentUser!.email,
-            'email_verified': true,
-            'facebook_sign': true
-          }, SetOptions(merge: true));
-        }
-        Get.offAllNamed(Routes.HOME_PAGE);
+            .doc(firebaseAuth.currentUser!.uid)
+            .set({
+          'fName': firebaseAuth.currentUser!.displayName!.split(" ").first,
+          'lName': firebaseAuth.currentUser!.displayName!.split(" ").last,
+          'phone': firebaseAuth.currentUser!.phoneNumber,
+          'profile_img': firebaseAuth.currentUser!.photoURL,
+          'email': firebaseAuth.currentUser!.email,
+          'email_verified': true,
+          'facebook_sign': true
+        }, SetOptions(merge: true));
+      }
+      Get.offAllNamed(Routes.HOME_PAGE);
       // } else {
       //   Get.snackbar(
       //     "Please make sure your last time login id login in facebook...!",
@@ -488,16 +508,13 @@ class AuthController extends BaseController{
       onUpdate(status: Status.SCUSSESS);
       logger.e(e);
       logger.e(t);
-      Get.snackbar(
-        "Please wait while data is loading",
-        "Please Don't back",
-        icon: const Icon(Icons.person, color: AppColors.white),
-        snackPosition: SnackPosition.BOTTOM,
+      Get.snackbar("Please wait while data is loading", "Please Don't back",
+          icon: const Icon(Icons.person, color: AppColors.white),
+          snackPosition: SnackPosition.BOTTOM,
           margin: const EdgeInsets.only(bottom: 10.0, left: 10.0, right: 10.0),
-        backgroundColor: AppColors.alertColor,
+          backgroundColor: AppColors.alertColor,
           shouldIconPulse: false,
-          colorText: AppColors.white
-      );
+          colorText: AppColors.white);
     }
   }
 }

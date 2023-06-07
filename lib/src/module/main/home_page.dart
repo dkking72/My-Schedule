@@ -52,13 +52,21 @@ class HomePage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text("Welcome!",
-                        style: TextStyle(color: AppColors.headingColor, fontWeight: FontWeight.bold, fontSize: 24)),
+                        style: TextStyle(
+                          color: AppColors.headingColor,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 24,
+                        )),
                     Text(
                       "I wish your best overcoming your challenges.",
                       maxLines: 2,
                       softWrap: true,
                       overflow: TextOverflow.fade,
-                      style: TextStyle(color: AppColors.headingColor, fontWeight: FontWeight.bold, fontSize: 15),
+                      style: TextStyle(
+                        color: AppColors.headingColor,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15,
+                      ),
                     ),
                   ],
                 ),
@@ -72,9 +80,11 @@ class HomePage extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.only(right: 15),
                     child: InkWell(
-                      overlayColor: const MaterialStatePropertyAll(Colors.transparent),
+                      overlayColor:
+                          const MaterialStatePropertyAll(Colors.transparent),
                       onTap: () async {
-                        controller.x = await Get.toNamed(Routes.PROFILE_SCREEN)!.then((value) {
+                        controller.x = await Get.toNamed(Routes.PROFILE_SCREEN)!
+                                .then((value) {
                               // x = value ?? "";
                               logger.i(value);
                               return value;
@@ -145,21 +155,28 @@ class HomePage extends StatelessWidget {
                                         ? Image.network(
                                             controller.x,
                                             fit: BoxFit.cover,
-                                            errorBuilder: (context, error, stackTrace) {
+                                            errorBuilder:
+                                                (context, error, stackTrace) {
                                               return Image.asset(
                                                 AssetConst.uploadImage2,
                                                 fit: BoxFit.cover,
                                               );
                                             },
-                                            loadingBuilder: (context, child, loadingProgress) {
+                                            loadingBuilder: (context, child,
+                                                loadingProgress) {
                                               if (loadingProgress == null) {
                                                 return child;
                                               }
                                               return Center(
-                                                child: CircularProgressIndicator(
-                                                  value: loadingProgress.expectedTotalBytes != null
-                                                      ? loadingProgress.cumulativeBytesLoaded /
-                                                          loadingProgress.expectedTotalBytes!
+                                                child:
+                                                    CircularProgressIndicator(
+                                                  value: loadingProgress
+                                                              .expectedTotalBytes !=
+                                                          null
+                                                      ? loadingProgress
+                                                              .cumulativeBytesLoaded /
+                                                          loadingProgress
+                                                              .expectedTotalBytes!
                                                       : null,
                                                 ),
                                               );
@@ -173,21 +190,28 @@ class HomePage extends StatelessWidget {
                                             : Image.network(
                                                 controller.profileUrl,
                                                 fit: BoxFit.cover,
-                                                errorBuilder: (context, error, stackTrace) {
+                                                errorBuilder: (context, error,
+                                                    stackTrace) {
                                                   return Image.asset(
                                                     AssetConst.uploadImage2,
                                                     fit: BoxFit.cover,
                                                   );
                                                 },
-                                                loadingBuilder: (context, child, loadingProgress) {
+                                                loadingBuilder: (context, child,
+                                                    loadingProgress) {
                                                   if (loadingProgress == null) {
                                                     return child;
                                                   }
                                                   return Center(
-                                                    child: CircularProgressIndicator(
-                                                      value: loadingProgress.expectedTotalBytes != null
-                                                          ? loadingProgress.cumulativeBytesLoaded /
-                                                              loadingProgress.expectedTotalBytes!
+                                                    child:
+                                                        CircularProgressIndicator(
+                                                      value: loadingProgress
+                                                                  .expectedTotalBytes !=
+                                                              null
+                                                          ? loadingProgress
+                                                                  .cumulativeBytesLoaded /
+                                                              loadingProgress
+                                                                  .expectedTotalBytes!
                                                           : null,
                                                     ),
                                                   );
@@ -219,16 +243,22 @@ class HomePage extends StatelessWidget {
                         children: [
                           const Text(
                             "Your Tasks",
-                            style: TextStyle(color: AppColors.headingColor, fontWeight: FontWeight.bold, fontSize: 25),
+                            style: TextStyle(
+                                color: AppColors.headingColor,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 25),
                           ),
                           Text(
                             "${controller.mainList.length} Tasks",
-                            style: const TextStyle(color: AppColors.headingColor),
+                            style:
+                                const TextStyle(color: AppColors.headingColor),
                           ),
                           IconButton(
                             onPressed: () async {
                               await controller.onDate2();
-                              controller.datePick2 == null ? null : controller.filter(controller.datePick2!);
+                              controller.datePick2 == null
+                                  ? null
+                                  : controller.filter(controller.datePick2!);
                             },
                             icon: const Icon(
                               CupertinoIcons.calendar_today,
@@ -278,14 +308,18 @@ class HomePage extends StatelessWidget {
                                 List<DateTime> pastDateList = [];
                                 List<DateTime> futureDateList = [];
                                 DateTime today = DateTime.now();
-                                DateTime c = DateTime(today.year, today.month, today.day);
+                                DateTime c = DateTime(
+                                    today.year, today.month, today.day);
                                 for (int i = 0; i < controller.f.length; i++) {
                                   if (controller.f[i].date.isBefore(c)) {
                                     pastDateList.any((element) =>
-                                            DateFormat('MMM dd,' 'yyyy').format(element) ==
-                                            DateFormat('MMM dd,' 'yyyy').format(controller.f[i].date))
+                                            DateFormat('MMM dd,' 'yyyy')
+                                                .format(element) ==
+                                            DateFormat('MMM dd,' 'yyyy')
+                                                .format(controller.f[i].date))
                                         ? null
-                                        : pastDateList.add(controller.f[i].date);
+                                        : pastDateList
+                                            .add(controller.f[i].date);
                                   }
                                   if (controller.f[i].date.isAfter(c)) {
                                     // DateFormat('MMM dd,' 'yyyy').format(futureDateList[i]) ==
@@ -298,10 +332,13 @@ class HomePage extends StatelessWidget {
                                     //     ? futureDateList.add(controller.f[i].date)
                                     //     : null;
                                     futureDateList.any((element) =>
-                                            DateFormat('MMM dd,' 'yyyy').format(element) ==
-                                            DateFormat('MMM dd,' 'yyyy').format(controller.f[i].date))
+                                            DateFormat('MMM dd,' 'yyyy')
+                                                .format(element) ==
+                                            DateFormat('MMM dd,' 'yyyy')
+                                                .format(controller.f[i].date))
                                         ? null
-                                        : futureDateList.add(controller.f[i].date);
+                                        : futureDateList
+                                            .add(controller.f[i].date);
                                   }
                                 }
                                 pastDateList.sort((a, b) => a.compareTo(b));
@@ -311,19 +348,24 @@ class HomePage extends StatelessWidget {
                                   child: SimpleDialog(
                                     backgroundColor: AppColors.bgPink,
                                     title: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
                                       children: [
                                         const Text(
                                           "TASK DATE",
-                                          style: TextStyle(color: AppColors.headingColor),
+                                          style: TextStyle(
+                                              color: AppColors.headingColor),
                                         ),
                                         Container(
                                           height: 35,
                                           width: 35,
                                           decoration: BoxDecoration(
-                                              border: Border.all(color: AppColors.alertColor),
-                                              borderRadius: BorderRadius.circular(10)),
+                                              border: Border.all(
+                                                  color: AppColors.alertColor),
+                                              borderRadius:
+                                                  BorderRadius.circular(10)),
                                           child: IconButton(
                                               onPressed: () {
                                                 Get.back();
@@ -336,56 +378,86 @@ class HomePage extends StatelessWidget {
                                         )
                                       ],
                                     ),
-                                    contentPadding: const EdgeInsets.symmetric(horizontal: 12.0),
+                                    contentPadding: const EdgeInsets.symmetric(
+                                        horizontal: 12.0),
                                     children: [
                                       SizedBox(
                                         height: 400,
                                         width: double.maxFinite,
                                         child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceAround,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Expanded(
                                               child: SingleChildScrollView(
                                                 child: Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
                                                   children: [
                                                     const ListTile(
                                                       title: Text("PAST TASK"),
-                                                      titleTextStyle: TextStyle(color: AppColors.darkPurple),
+                                                      titleTextStyle: TextStyle(
+                                                          color: AppColors
+                                                              .darkPurple),
                                                     ),
                                                     pastDateList.isEmpty
                                                         ? Column(
-                                                            crossAxisAlignment: CrossAxisAlignment.center,
-                                                            mainAxisAlignment: MainAxisAlignment.center,
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .center,
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
                                                             children: [
                                                               Image.asset(
-                                                                AssetConst.pastTask,
+                                                                AssetConst
+                                                                    .pastTask,
                                                                 height: 100,
                                                                 width: 100,
                                                               ),
                                                               const Text(
                                                                 "All Past Task Done",
-                                                                textAlign: TextAlign.center,
-                                                                style: TextStyle(color: AppColors.textColor),
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .center,
+                                                                style: TextStyle(
+                                                                    color: AppColors
+                                                                        .textColor),
                                                               ),
                                                             ],
                                                           )
                                                         : ListView.builder(
-                                                            physics: const NeverScrollableScrollPhysics(),
+                                                            physics:
+                                                                const NeverScrollableScrollPhysics(),
                                                             shrinkWrap: true,
-                                                            itemCount: pastDateList.length,
-                                                            itemBuilder: (context, index) {
+                                                            itemCount:
+                                                                pastDateList
+                                                                    .length,
+                                                            itemBuilder:
+                                                                (context,
+                                                                    index) {
                                                               return ListTile(
                                                                 onTap: () {
-                                                                  controller.filter(pastDateList[index]);
-                                                                  controller.datePick2 = pastDateList[index];
+                                                                  controller.filter(
+                                                                      pastDateList[
+                                                                          index]);
+                                                                  controller
+                                                                          .datePick2 =
+                                                                      pastDateList[
+                                                                          index];
                                                                   Get.back();
                                                                 },
                                                                 title: Text(
-                                                                  DateFormat('MMM dd,' 'yyyy')
-                                                                      .format(pastDateList[index]),
-                                                                  style: const TextStyle(color: AppColors.textColor),
+                                                                  DateFormat(
+                                                                          'MMM dd,'
+                                                                          'yyyy')
+                                                                      .format(pastDateList[
+                                                                          index]),
+                                                                  style: const TextStyle(
+                                                                      color: AppColors
+                                                                          .textColor),
                                                                 ),
                                                               );
                                                             },
@@ -400,44 +472,72 @@ class HomePage extends StatelessWidget {
                                             Expanded(
                                               child: SingleChildScrollView(
                                                 child: Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
                                                   children: [
                                                     const ListTile(
-                                                      title: Text("FUTURE TASK"),
-                                                      titleTextStyle: TextStyle(color: AppColors.darkPurple),
+                                                      title:
+                                                          Text("FUTURE TASK"),
+                                                      titleTextStyle: TextStyle(
+                                                          color: AppColors
+                                                              .darkPurple),
                                                     ),
                                                     futureDateList.isEmpty
                                                         ? Column(
-                                                            crossAxisAlignment: CrossAxisAlignment.center,
-                                                            mainAxisAlignment: MainAxisAlignment.center,
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .center,
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
                                                             children: [
                                                               Image.asset(
-                                                                AssetConst.futureTask,
+                                                                AssetConst
+                                                                    .futureTask,
                                                                 height: 100,
                                                                 width: 100,
                                                               ),
                                                               const Text(
                                                                 "No Future Task Pending",
-                                                                textAlign: TextAlign.center,
-                                                                style: TextStyle(color: AppColors.textColor),
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .center,
+                                                                style: TextStyle(
+                                                                    color: AppColors
+                                                                        .textColor),
                                                               ),
                                                             ],
                                                           )
                                                         : ListView.builder(
                                                             shrinkWrap: true,
-                                                            physics: const NeverScrollableScrollPhysics(),
-                                                            itemCount: futureDateList.length,
-                                                            itemBuilder: (context, index) {
+                                                            physics:
+                                                                const NeverScrollableScrollPhysics(),
+                                                            itemCount:
+                                                                futureDateList
+                                                                    .length,
+                                                            itemBuilder:
+                                                                (context,
+                                                                    index) {
                                                               return ListTile(
                                                                 onTap: () {
-                                                                  controller.filter(futureDateList[index]);
-                                                                  controller.datePick2 = futureDateList[index];
+                                                                  controller.filter(
+                                                                      futureDateList[
+                                                                          index]);
+                                                                  controller
+                                                                          .datePick2 =
+                                                                      futureDateList[
+                                                                          index];
                                                                   Get.back();
                                                                 },
                                                                 title: Text(
-                                                                  DateFormat('MMM dd,' 'yyyy')
-                                                                      .format(futureDateList[index]),
-                                                                  style: const TextStyle(color: AppColors.textColor),
+                                                                  DateFormat(
+                                                                          'MMM dd,'
+                                                                          'yyyy')
+                                                                      .format(futureDateList[
+                                                                          index]),
+                                                                  style: const TextStyle(
+                                                                      color: AppColors
+                                                                          .textColor),
                                                                 ),
                                                               );
                                                             },
@@ -455,7 +555,9 @@ class HomePage extends StatelessWidget {
                               },
                             );
                           },
-                          style: const ButtonStyle(backgroundColor: MaterialStatePropertyAll(AppColors.purple)),
+                          style: const ButtonStyle(
+                              backgroundColor:
+                                  MaterialStatePropertyAll(AppColors.purple)),
                           child: const Text("All Task Date")),
                     ),
                   ),
@@ -501,12 +603,15 @@ class HomePage extends StatelessWidget {
                                 physics: const NeverScrollableScrollPhysics(),
                                 itemBuilder: (context, index) {
                                   return FadeInRightBig(
-                                    duration: const Duration(milliseconds: 1500),
+                                    duration:
+                                        const Duration(milliseconds: 1500),
                                     delay: const Duration(milliseconds: 700),
                                     child: ListTileWidget(
-                                      badgeBool: controller.mainList[index].urgent,
+                                      badgeBool:
+                                          controller.mainList[index].urgent,
                                       title: controller.mainList[index].title,
-                                      subtitle: controller.mainList[index].detail,
+                                      subtitle:
+                                          controller.mainList[index].detail,
                                       index: index,
                                       date: controller.mainList[index].date,
                                     ),
@@ -523,13 +628,16 @@ class HomePage extends StatelessWidget {
                                     height: 50,
                                   ),
                                   Image.asset(AssetConst.workedDone,
-                                      height: 300, gaplessPlayback: true, repeat: ImageRepeat.repeat),
+                                      height: 300,
+                                      gaplessPlayback: true,
+                                      repeat: ImageRepeat.repeat),
                                   const SizedBox(
                                     height: 10,
                                   ),
                                   Text(
                                     "Yay! You have no tasks on ${DateFormat('MMM dd,' 'yyyy').format(controller.datePick2 == null ? DateTime.now() : controller.datePick2!)}",
-                                    style: const TextStyle(color: AppColors.purple, fontSize: 16),
+                                    style: const TextStyle(
+                                        color: AppColors.purple, fontSize: 16),
                                   )
                                 ],
                               ),
